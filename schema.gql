@@ -9,11 +9,17 @@ type User {
   username: String!
 }
 
+type LoginResult {
+  user: User!
+  jwt: String!
+}
+
 type Query {
   getUsers: [User!]!
 }
 
 type Mutation {
+  login(password: String!, username: String!): LoginResult!
   saveUser(user: UserInput!): User!
 }
 

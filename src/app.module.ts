@@ -1,3 +1,4 @@
+import { AuthModule } from './schema/auth/auth.module';
 import { UsersModule } from './schema/user/users.module';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -6,6 +7,7 @@ import User from './models/User';
 
 @Module({
   imports: [
+    AuthModule,
     UsersModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
