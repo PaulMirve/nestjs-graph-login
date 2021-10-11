@@ -15,6 +15,7 @@ type LoginResult {
 }
 
 type Query {
+  isAuthenticated: User!
   getUsers: [User!]!
 }
 

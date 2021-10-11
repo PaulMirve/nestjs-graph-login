@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 export const generateJWT = (uid = '') => {
     return new Promise((resolve, reject) => {
         const payload = { uid };
-        jwt.sign(payload, 'th1sisMY5ecr7k3Y', {
+        jwt.sign(payload, 'secret', {
             expiresIn: '24h'
         }, (err, token) => {
             if (err) {

@@ -17,4 +17,8 @@ export class UsersService {
     find(): Promise<User[]> {
         return this.repository.find();
     }
+
+    findOneByPublicId(publicId: string): Promise<User> {
+        return this.repository.findOne({ publicId });
+    }
 }

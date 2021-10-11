@@ -21,6 +21,7 @@ import User from './models/User';
     GraphQLModule.forRoot({
       installSubscriptionHandlers: true,
       autoSchemaFile: 'schema.gql',
+      context: ({ req }) => ({ headers: req.headers })
     })],
   providers: [],
 })

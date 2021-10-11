@@ -1,13 +1,17 @@
-import { Args, Mutation, Resolver } from "@nestjs/graphql";
+import { UseGuards } from "@nestjs/common";
+import { Args, Context, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { generateJWT } from "src/helpers/generate-jwt";
 import User from "src/models/User";
+import { UsersService } from "../user/users.service";
+import { AuthGuard } from "./auth.guard";
 import { AuthService } from "./auth.service";
 import LoginResult from "./auth.types";
 
 @Resolver()
 export default class AuthResolver {
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private userService: UsersService
     ) { }
 
     @Mutation(returns => LoginResult)
@@ -21,5 +25,12 @@ export default class AuthResolver {
             user,
             jwt
         }
+    }
+
+    @Query(returns => User)
+    @UseGuards(new AuthGuard())
+    async isAuthenticated(@Context('user') userId: any) {
+        const user = await this.userService.findOneByPublicId(userId.uid);
+        return user;
     }
 }
