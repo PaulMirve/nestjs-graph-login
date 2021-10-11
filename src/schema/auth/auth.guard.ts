@@ -2,9 +2,12 @@ import { Injectable, CanActivate, ExecutionContext, HttpException, HttpStatus } 
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Observable } from 'rxjs';
 import * as jwt from 'jsonwebtoken';
+import { UsersService } from '../user/users.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  constructor(private userService: UsersService) { }
+
   async canActivate(
     context: ExecutionContext,
   ): Promise<boolean> {
@@ -12,7 +15,8 @@ export class AuthGuard implements CanActivate {
     if (!ctx.headers.authorization) {
       return false;
     }
-    ctx.user = await this.validateToken(ctx.headers.authorization);
+    const publicId: any = await this.validateToken(ctx.headers.authorization);
+    ctx.user = await this.userService.findOneByPublicId(publicId.uid);
     return true;
   }
 

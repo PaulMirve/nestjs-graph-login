@@ -28,9 +28,8 @@ export default class AuthResolver {
     }
 
     @Query(returns => User)
-    @UseGuards(new AuthGuard())
-    async isAuthenticated(@Context('user') userId: any) {
-        const user = await this.userService.findOneByPublicId(userId.uid);
+    @UseGuards(AuthGuard)
+    async isAuthenticated(@Context('user') user: User) {
         return user;
     }
 }
